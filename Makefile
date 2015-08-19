@@ -55,7 +55,7 @@ INSTALL_DATA    = $(INSTALL) -m 644
 INSTALL_DIR     = $(MKDIR_P) -m 755
 
 
-PROGRAMS = samtools
+PROGRAMS = samtools reproduce_cram_iter_bug
 
 BUILT_MISC_PROGRAMS = \
 	misc/ace2sam misc/maq2sam-long misc/maq2sam-short \
@@ -126,6 +126,9 @@ libbam.a:$(LOBJS)
 
 samtools: $(AOBJS) libbam.a $(HTSLIB)
 	$(CC) -pthread $(LDFLAGS) -o $@ $(AOBJS) libbam.a $(HTSLIB) $(LIBCURSES) -lm -lz $(LIBS)
+
+reproduce_cram_iter_bug: reproduce_cram_iter_bug.o libbam.a $(HTSLIB)
+	$(CC) -pthread $(LDFLAGS) -o $@ $< libbam.a $(HTSLIB) $(LIBCURSES) -lm -lz $(LIBS)
 
 bam_h = bam.h $(htslib_bgzf_h) $(htslib_sam_h)
 bam2bcf_h = bam2bcf.h $(htslib_vcf_h) errmod.h
